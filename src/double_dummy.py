@@ -9,7 +9,7 @@ import ctypes
 from src.types import Strain, Seat, Card, Rank, Suit
 from src.deal import Deal as Board
 
-FULL_PATH = 'D:\\OneDrive\\Documents\\Cambridge\\Code\\Python\\BridgeSim\\src\\dds-64.dll'
+
 DLL = ctypes.WinDLL('src\\dds-64.dll')
 SolveBoardStatus = {
     1: "No fault",
