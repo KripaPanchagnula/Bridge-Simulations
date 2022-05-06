@@ -1,9 +1,10 @@
 #!/usr/bin/python
 #File: tests.test_types.py
 """Module testing src.types"""
+import pytest
 
 from src.types import InvalidHandError, Suit, Strain, Seat, Rank, Card, Hand, InvalidCardError
-import pytest
+
 
 
 def test_suit() -> None:
@@ -61,13 +62,13 @@ def test_hand() -> None:
 def test_invalid_card() -> None:
     r"Check error on invalid Card instantiation"
     with pytest.raises(InvalidCardError):
-        invalid_rank = Card('1S')
+        Card('1S')
     with pytest.raises(InvalidCardError):
-        invalid_suit = Card('7X')
+        Card('7X')
 
 def test_invalid_hand() -> None:
     r"Check error on invalid Hand instantiation"
     with pytest.raises(InvalidHandError):
-        invalid_length = Hand.construct_from_str('AKQJT.AKQJT.AKQ.AKQ')
+        Hand.construct_from_str('AKQJT.AKQJT.AKQ.AKQ')
     with pytest.raises(InvalidHandError):
-        invalid_count = Hand.construct_from_str('AA.KQJ..')
+        Hand.construct_from_str('AA.KQJ..')

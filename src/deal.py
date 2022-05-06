@@ -3,7 +3,7 @@
 """Module containing functions and classes to generate deals."""
 
 from __future__ import annotations
-from typing import Callable, List, Tuple
+from typing import Callable, List
 from random import randint
 from math import factorial
 
@@ -51,8 +51,9 @@ def generate_deal(deal_number: int, north: Hand, east: Hand, south: Hand, west: 
     """
     cards = north.hand+east.hand+south.hand+west.hand
     for card in cards:
-        if cards.count(card)>1:
-            raise InvalidDealError(f"Deal with {cards.count(card)} copies of {card} not valid")
+        if cards.count(card) > 1:
+            raise InvalidDealError(
+                f"Deal with {cards.count(card)} copies of {card} not valid")
 
     spaces_in_hands = [13-len(north.hand), 13-len(east.hand),
                        13-len(south.hand), 13-len(west.hand)]
@@ -176,8 +177,11 @@ def calculate_total_possible_deals(north: Hand, east: Hand, south: Hand, west: H
                                  * south_permutations*west_permutations)
     return space
 
+
 class InvalidDealError(Exception):
-    pass
+    r"Class representing an invalid deal exception."
+
+
 
 class Deal:
     r""" Class representing a deal object, containing 4 players' hands and can work out various
@@ -220,8 +224,9 @@ class Deal:
         """
         cards = deal[0].hand+deal[1].hand+deal[2].hand+deal[3].hand
         for card in cards:
-            if cards.count(card)>1:
-                raise InvalidDealError(f"Deal with {cards.count(card)} copies of {card} not valid")
+            if cards.count(card) > 1:
+                raise InvalidDealError(
+                    f"Deal with {cards.count(card)} copies of {card} not valid")
         self.deal = deal
         self.north = self.deal[0]
         self.east = self.deal[1]

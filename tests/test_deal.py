@@ -5,7 +5,8 @@
 from random import randint
 import pytest
 
-from src.deal import generate_deal, remove_dealt_cards, calculate_total_possible_deals, Deal, Dealer, InvalidDealError
+from src.deal import (generate_deal, remove_dealt_cards, calculate_total_possible_deals,
+                    Deal, Dealer, InvalidDealError)
 from src.types import Hand, Card, Deck
 
 
@@ -109,8 +110,9 @@ def test_deal_strings() -> None:
     assert str(deal) == (north+east+south+west)
 
 def test_invalid_deal() -> None:
+    r"Checks error raise on invalid deal instantiation"
     with pytest.raises(InvalidDealError):
-        duplicate_card = Deal.construct_from_strings([
+        Deal.construct_from_strings([
         'A732.J984.A9.AK7',
         'AT98654.K653.5.9',
         'Q.2.KQ843.QJT652',
@@ -118,4 +120,5 @@ def test_invalid_deal() -> None:
         ])
     with pytest.raises(InvalidDealError):
         large_no = randint(0, int(1e20))
-        deal = generate_deal(large_no, Hand.construct_from_str('A.KQ..'), Hand.construct_from_str('A...'), Hand([]), Hand([]))
+        generate_deal(large_no, Hand.construct_from_str('A.KQ..'),
+                            Hand.construct_from_str('A...'), Hand([]), Hand([]))

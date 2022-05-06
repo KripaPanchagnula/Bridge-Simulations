@@ -6,8 +6,10 @@
 from __future__ import annotations
 from src.types import Strain
 
+
 class InvalidContractError(Exception):
-    pass
+    r"Class representing an invalid contract exception."
+
 
 class Contract:
 
@@ -63,12 +65,15 @@ class Contract:
         vul : bool, optional
             Vulnerability of declaring side. Default is false for NV.
         """
-        if level not in [1,2,3,4,5,6,7]:
-            raise InvalidContractError(f"No contract allowed with level {level}")
+        if level not in [1, 2, 3, 4, 5, 6, 7]:
+            raise InvalidContractError(
+                f"No contract allowed with level {level}")
         if strain not in Strain.__members__:
-            raise InvalidContractError(f"No contract allowed with strain {strain}")
-        if doubles not in [0,1,2]:
-            raise InvalidContractError(f"No contract allowed with number of doubles {doubles}")
+            raise InvalidContractError(
+                f"No contract allowed with strain {strain}")
+        if doubles not in [0, 1, 2]:
+            raise InvalidContractError(
+                f"No contract allowed with number of doubles {doubles}")
         self.level = level
         self.strain = strain
         self.doubles = doubles

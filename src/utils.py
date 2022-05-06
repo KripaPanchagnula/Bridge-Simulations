@@ -139,7 +139,7 @@ def check_if_shortage(shape: tuple) -> bool:
 
 
 def print_imp_table(headings: Union[List[Contract], List[Card]],
-                imps_table: Union[List[List[int]], List[List[float]]]) -> str:
+                    imps_table: Union[List[List[int]], List[List[float]]]) -> str:
     r""" Given a list of table headings, and an imps table, outputs a string for comparisons.
     The first line is the list of leads or contracts, which are to compare against. The subsequent
     lines give "my" contract or lead and the relative imp gain or loss against the other possible
@@ -165,7 +165,7 @@ def print_imp_table(headings: Union[List[Contract], List[Card]],
     for header in headings:
         cross_table += f"{header}\t"
     cross_table += "\n"
-    for i, header in enumerate(headings):
+    for i, header in enumerate(headings): #type:ignore
         line = str(header) + "\t" + imp_strings[i] + "\n"
         cross_table += line
     return cross_table

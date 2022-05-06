@@ -1,17 +1,19 @@
 #!/usr/bin/python
 #File: tests.test_contract.py
 """Module testing src.contract"""
-from src.contract import Contract, InvalidContractError
 import pytest
+
+from src.contract import Contract, InvalidContractError
+
 
 def test_invalid_contract() -> None:
     r"Checks error raise on invalid Contract instantiation"
     with pytest.raises(InvalidContractError):
-        invalid_level = Contract.construct_from_str('8NT')
+        Contract.construct_from_str('8NT')
     with pytest.raises(InvalidContractError):
-        invalid_strain = Contract.construct_from_str('1X')
+        Contract.construct_from_str('1X')
     with pytest.raises(InvalidContractError):
-        invalid_doubles = Contract.construct_from_str('4HXXX')
+        Contract.construct_from_str('4HXXX')
 
 
 def test_contract_instantiation() -> None:
