@@ -12,4 +12,4 @@ In order to have access to the Double Dummy Solver, this must be run on Windows.
 To see various cases of how to use this library, look at the sample scripts in `examples/`, which have varying `accept(deal)` functions, and include `BestContract` and `BestLead` simulations.
 
 # Testing
-There are currently 40 tests which all pass, and code coverage of 99%. To run the tests, run `pytest` and to check coverage `pytest --cov=src tests`.
+There are currently 44 tests which all pass, and code coverage of 99%. To run the tests, run `pytest` and to check coverage `pytest --cov=src tests`.

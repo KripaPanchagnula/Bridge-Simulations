@@ -2,7 +2,8 @@
 #File: tests.test_types.py
 """Module testing src.types"""
 
-from src.types import Suit, Strain, Seat, Rank, Card, Hand
+from src.types import InvalidHandError, Suit, Strain, Seat, Rank, Card, Hand, InvalidCardError
+import pytest
 
 
 def test_suit() -> None:
@@ -13,7 +14,7 @@ def test_suit() -> None:
         assert Suit(i).name == suits[i]
 
 
-def test_strain():
+def test_strain() -> None:
     r"Checks values of Strain enum."
     strains = ["S", "H", "D", "C", "NT"]
     for i in range(5):
@@ -21,7 +22,7 @@ def test_strain():
         assert Strain(i).name == strains[i]
 
 
-def test_seat():
+def test_seat() -> None:
     r"Checks values of Seat enum."
     seats = ["N", "E", "S", "W"]
     for i in range(4):
@@ -29,7 +30,7 @@ def test_seat():
         assert Seat(i).name == seats[i]
 
 
-def test_rank():
+def test_rank() -> None:
     r"Checks values of Rank enum."
     ints, strings = list(range(2, 15)), [str(
         i) for i in range(2, 10)] + ["T", "J", "Q", "K", "A"]
@@ -39,7 +40,7 @@ def test_rank():
         assert Rank(number).name == string
 
 
-def test_card():
+def test_card() -> None:
     r"Checks construction attributes of a Card."
     spade_ace, beer_card, club_deuce = Card('AS'), Card('7D'), Card('2C')
     assert spade_ace.rank == 14
@@ -50,9 +51,23 @@ def test_card():
     assert club_deuce.suit == 3
 
 
-def test_hand():
+def test_hand() -> None:
     r"Checks attributes of a Hand."
     hand = Hand.construct_from_str('AKQJT3.5.Q.A9872')
     assert hand.shape == (6, 1, 1, 5)
     assert hand.points == 16
     assert str(hand) == '\u2660AKQJT3  \u26655  \u2666Q  \u2663A9872'
+
+def test_invalid_card() -> None:
+    r"Check error on invalid Card instantiation"
+    with pytest.raises(InvalidCardError):
+        invalid_rank = Card('1S')
+    with pytest.raises(InvalidCardError):
+        invalid_suit = Card('7X')
+
+def test_invalid_hand() -> None:
+    r"Check error on invalid Hand instantiation"
+    with pytest.raises(InvalidHandError):
+        invalid_length = Hand.construct_from_str('AKQJT.AKQJT.AKQ.AKQ')
+    with pytest.raises(InvalidHandError):
+        invalid_count = Hand.construct_from_str('AA.KQJ..')

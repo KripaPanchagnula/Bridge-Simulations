@@ -53,6 +53,8 @@ Rank = Enum("Rank", zip("23456789TJQKA", range(2, 15)))  # type: ignore
 Rank.__doc__ = r"""Enum containing rank information. Numbers are the same,
 honours continue the sequence J=11 to A=14."""
 
+class InvalidCardError(Exception):
+    pass
 
 class Card:
     r""" Class representing a Card object.
@@ -79,6 +81,10 @@ class Card:
         card : str
             String of card. Must have length 2, and be in the order Rank, Suit.
         """
+        if card[0] not in Rank.__members__:
+            raise InvalidCardError(f'Card with rank {card[0]} not valid')
+        if card[1] not in Suit.__members__:
+            raise InvalidCardError(f'Card with suit {card[1]} not valid')
         self.card = card
         self.rank = Rank[card[0]].value
         self.suit = Suit[card[1]].value
@@ -93,6 +99,9 @@ class Card:
     def __eq__(self, other) -> bool:
         return isinstance(other, Card) and hash(self) == hash(other)
 
+
+class InvalidHandError(Exception):
+    pass
 
 class Hand:
     r""" Class representing a Hand object, which is a list of Cards. This can be up to length 13.
@@ -136,6 +145,11 @@ class Hand:
         hand : list(Card)
             List of cards in hand. Can have length up to 13.
         """
+        if len(hand) > 13:
+            raise InvalidHandError(f"Hand with {len(hand)} cards not valid")
+        for card in hand:
+            if hand.count(card)>1:
+                raise InvalidHandError(f"Hand with {hand.count(card)} copies of {card} not valid")
         self.hand = hand
         self.separate_into_suits()
         self.calculate_points()
