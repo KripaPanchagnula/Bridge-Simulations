@@ -26,7 +26,6 @@ SolveBoardStatus = {
     -13: "Card played in current trick is also remaining",
     -14: "Wrong number of remaining cards in a hand",
     -15: "threadIndex < 0 or >=noOfThreads, noOfThreads is the configured "
-         "maximum number of threads",
 }
 
 
@@ -78,10 +77,13 @@ class Deal(ctypes.Structure):
         """
         trumps = Strain[strain].value
         leader = (Seat[declarer].value + 1) % 4
-        self = cls(trump=trumps, first=leader, currentTrickSuit=(ctypes.c_int * 3)(0, 0, 0),
-                   currentTrickRank=(ctypes.c_int * 3)(0, 0, 0),
-                   remain_cards=(ctypes.c_int * 4 * 4)((0, 0, 0, 0), (0, 0, 0, 0),  # type:ignore
-                                                       (0, 0, 0, 0), (0, 0, 0, 0)))  # type:ignore
+        self = cls(
+            trump=trumps, first=leader, currentTrickSuit=(
+                ctypes.c_int * 3)(0, 0, 0),
+            currentTrickRank=(ctypes.c_int * 3)(0, 0, 0),
+            remain_cards=(ctypes.c_int * 4 * 4)((0, 0, 0, 0), (0, 0, 0, 0),  # type:ignore
+                                                (0, 0, 0, 0), (0, 0, 0, 0))  # type:ignore
+        )
         for seat, hand in enumerate(deal.deal):
             suited_hand = [hand.spades, hand.hearts, hand.diamonds, hand.clubs]
             for suit, holding in enumerate(suited_hand):
@@ -148,11 +150,12 @@ def solve_board(deal: Board, strain: str, declarer: str,
     target, solutions, mode = double_dummy_solver_modes
     c_deal = Deal.construct_deal(deal, strain, declarer)
     future_tricks = FutureTricks()
-    status = DLL.SolveBoard(c_deal, target, solutions,
-                            mode, ctypes.byref(future_tricks), 0)
+    status = DLL.SolveBoard(
+        c_deal, target, solutions, mode, ctypes.byref(future_tricks), 0
+    )
     if status != 1:
-        raise Exception(f"""SolveBoard failed with status {status},
-                        meaning {SolveBoardStatus[status]}""")
+        raise Exception(
+            f"""SolveBoard failed with status {status}, meaning {SolveBoardStatus[status]}""")
     return future_tricks
 
 

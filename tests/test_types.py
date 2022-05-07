@@ -6,7 +6,6 @@ import pytest
 from src.types import InvalidHandError, Suit, Strain, Seat, Rank, Card, Hand, InvalidCardError
 
 
-
 def test_suit() -> None:
     r"Checks values of Suit enum."
     suits = ["S", "H", "D", "C"]
@@ -59,12 +58,14 @@ def test_hand() -> None:
     assert hand.points == 16
     assert str(hand) == '\u2660AKQJT3  \u26655  \u2666Q  \u2663A9872'
 
+
 def test_invalid_card() -> None:
     r"Check error on invalid Card instantiation"
     with pytest.raises(InvalidCardError):
         Card('1S')
     with pytest.raises(InvalidCardError):
         Card('7X')
+
 
 def test_invalid_hand() -> None:
     r"Check error on invalid Hand instantiation"

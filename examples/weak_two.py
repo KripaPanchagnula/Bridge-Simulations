@@ -21,7 +21,7 @@ def accept(deal: Deal) -> bool:
         True if condition satisfied, else False.
     """
     if (len(deal.south.hearts) == 6 and 3 <= deal.south.points < 10
-    and check_if_shortage(deal.south.shape)):
+            and check_if_shortage(deal.south.shape)):
         return True
     return False
 

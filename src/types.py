@@ -150,10 +150,8 @@ class Hand:
         """
         if len(hand) > 13:
             raise InvalidHandError(f"Hand with {len(hand)} cards not valid")
-        for card in hand:
-            if hand.count(card) > 1:
-                raise InvalidHandError(
-                    f"Hand with {hand.count(card)} copies of {card} not valid")
+        if len(hand) > len(set(hand)):
+            raise InvalidHandError("Hand with duplicated card invalid")
         self.hand = hand
         self.separate_into_suits()
         self.calculate_points()
@@ -163,25 +161,27 @@ class Hand:
         The separation into suits is done by checking the value of the Suit enum for each card.
         The shape is just the lengths of lists of each suit holding.
         """
-        self.spades, self.hearts, self.diamonds, self.clubs = [], [], [], []
+        self.spades: List[Card] = []
+        self.hearts: List[Card] = []
+        self.diamonds: List[Card] = []
+        self.clubs: List[Card] = []
+
         for card in self.hand:
-            if Suit(card.suit).name == 'S':
-                self.spades.append(card)
-            elif Suit(card.suit).name == 'H':
-                self.hearts.append(card)
-            elif Suit(card.suit).name == 'D':
-                self.diamonds.append(card)
-            elif Suit(card.suit).name == 'C':
-                self.clubs.append(card)
+            suit_list = {
+                'S': self.spades,
+                'H': self.hearts,
+                'D': self.diamonds,
+                'C': self.clubs
+            }[Suit(card.suit).name]
+            suit_list.append(card)
+
         self.shape = (len(self.spades), len(self.hearts),
                       len(self.diamonds), len(self.clubs))
 
     def calculate_points(self) -> None:
         r"""Calculates the Milton HCP value of the hand by iterating through cards
         and checking their value in the Milton_HCP dict."""
-        self.points = 0
-        for card in self.hand:
-            self.points += Milton_HCP[card.rank]
+        self.points = sum(map(lambda card: Milton_HCP[card.rank], self.hand))
 
     @classmethod
     def construct_from_str(cls, string_hand: str) -> Hand:
@@ -226,8 +226,8 @@ class Hand:
 
 
 # List of 52 cards, in the order 2S, 3S, ... AS, 2H, ... AH, 2D, ... AD, 2C, ..., AC.
-Deck: List[Card] = [Card(card) for card in [Rank(rank).name+Suit(suit).name
-                                            for suit in Suit for rank in Rank]]
+Deck = [Card(card) for card in (Rank(rank).name+Suit(suit).name
+                                for suit in Suit for rank in Rank)]
 
 # Dictionary linking the rank of a card to its point count.
 Milton_HCP: Dict[int, int] = {

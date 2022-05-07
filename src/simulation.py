@@ -5,7 +5,6 @@
 from __future__ import annotations
 from bisect import bisect
 from typing import List, Dict
-from abc import ABC
 
 from src.deal import Deal
 from src.contract import Contract
@@ -13,7 +12,7 @@ from src.types import IMPS, Hand, Card
 from src.double_dummy import solve_strains, solve_leads
 
 
-class Simulation(ABC):
+class Simulation:
     r""" Abstract class representing a simulation to run.
 
     Attributes

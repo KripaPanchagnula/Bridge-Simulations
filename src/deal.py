@@ -50,13 +50,13 @@ def generate_deal(deal_number: int, north: Hand, east: Hand, south: Hand, west: 
 
     """
     cards = north.hand+east.hand+south.hand+west.hand
-    for card in cards:
-        if cards.count(card) > 1:
-            raise InvalidDealError(
-                f"Deal with {cards.count(card)} copies of {card} not valid")
+    if len(cards) > len(set(cards)):
+        raise InvalidDealError("Deal with duplicated cards not valid")
 
-    spaces_in_hands = [13-len(north.hand), 13-len(east.hand),
-                       13-len(south.hand), 13-len(west.hand)]
+    spaces_in_hands = [
+        13-len(north.hand), 13-len(east.hand), 13 -
+        len(south.hand), 13-len(west.hand)
+    ]
     north_hand, east_hand = north.hand.copy(), east.hand.copy()
     south_hand, west_hand = south.hand.copy(), west.hand.copy()
 
@@ -128,14 +128,17 @@ def remove_dealt_cards(north: Hand, east: Hand, south: Hand, west: Hand) -> List
         List of Cards not currently in any players' hand.
 
     """
-    cards_dealt = [[convert_card_to_number(card) for card in north.hand],
-                   [convert_card_to_number(card) for card in east.hand],
-                   [convert_card_to_number(card) for card in south.hand],
-                   [convert_card_to_number(card) for card in west.hand]]
+    cards_dealt = [
+        [convert_card_to_number(card) for card in north.hand],
+        [convert_card_to_number(card) for card in east.hand],
+        [convert_card_to_number(card) for card in south.hand],
+        [convert_card_to_number(card) for card in west.hand]
+    ]
     used_cards = [card for cards_list in cards_dealt for card in cards_list]
     deck = [convert_card_to_number(card) for card in Deck]
-    remaining_cards = [convert_number_to_card(
-        card) for card in deck if card not in used_cards]
+    remaining_cards = [
+        convert_number_to_card(card) for card in deck if card not in used_cards
+    ]
     return remaining_cards
 
 
@@ -173,14 +176,13 @@ def calculate_total_possible_deals(north: Hand, east: Hand, south: Hand, west: H
     south_permutations = factorial(south_cards)
     west_permutations = factorial(west_cards)
 
-    space = total_permutations//(north_permuatations*east_permutations
-                                 * south_permutations*west_permutations)
+    space = total_permutations // (north_permuatations*east_permutations
+                                   * south_permutations*west_permutations)
     return space
 
 
 class InvalidDealError(Exception):
     r"Class representing an invalid deal exception."
-
 
 
 class Deal:
@@ -223,10 +225,8 @@ class Deal:
             A list of 4 hands, in the order North, East, South, West.
         """
         cards = deal[0].hand+deal[1].hand+deal[2].hand+deal[3].hand
-        for card in cards:
-            if cards.count(card) > 1:
-                raise InvalidDealError(
-                    f"Deal with {cards.count(card)} copies of {card} not valid")
+        if len(cards) > len(set(cards)):
+            raise InvalidDealError("Deal with duplicated cards not valid")
         self.deal = deal
         self.north = self.deal[0]
         self.east = self.deal[1]
@@ -258,9 +258,7 @@ class Deal:
             W: <west_hand>"
 
         """
-        north, south, east, west = str(self.north), str(
-            self.south), str(self.east), str(self.west)
-        return f"N:{north}\nE:{east}\nS:{south}\nW:{west}"
+        return f"N:{self.north}\nE:{self.east}\nS:{self.south}\nW:{self.west}"
 
 
 class Dealer:

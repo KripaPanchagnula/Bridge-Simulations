@@ -108,15 +108,18 @@ def check_is_balanced(shape: tuple, semi: bool = False) -> bool:
     balanced : bool
         True if hand is balanced, else false.
     """
-    balanced_shapes = ["5-3-3-2", "4-4-3-2", "4-3-3-3"]
+    balanced_shapes = [(5, 3, 3, 2), (4, 4, 3, 2), (4, 3, 3, 3)]
     if semi:
-        balanced_shapes.extend(["6-3-2-2", "5-4-2-2"])
-    all_balanced = [generate_allowed_shapes(
-        shape) for shape in balanced_shapes]
-    all_shapes = set(x for y in all_balanced for x in y)
-    if shape in all_shapes:
-        return True
-    return False
+        balanced_shapes.extend([(6, 3, 2, 2), (5, 4, 2, 2)])
+    test_shape = tuple(sorted(shape, reverse=True))
+    print(test_shape)
+    return test_shape in balanced_shapes
+    # all_balanced = [generate_allowed_shapes(
+    #     shape) for shape in balanced_shapes]
+    # all_shapes = set(x for y in all_balanced for x in y)
+    # if shape in all_shapes:
+    #     return True
+    # return False
 
 
 def check_if_shortage(shape: tuple) -> bool:
@@ -133,9 +136,7 @@ def check_if_shortage(shape: tuple) -> bool:
     shortage : bool
         True if hand contains a shortage, else false.
     """
-    if 1 in shape or 0 in shape:
-        return True
-    return False
+    return 1 in shape or 0 in shape
 
 
 def print_imp_table(headings: Union[List[Contract], List[Card]],
@@ -165,7 +166,7 @@ def print_imp_table(headings: Union[List[Contract], List[Card]],
     for header in headings:
         cross_table += f"{header}\t"
     cross_table += "\n"
-    for i, header in enumerate(headings): #type:ignore
+    for i, header in enumerate(headings):  # type:ignore
         line = str(header) + "\t" + imp_strings[i] + "\n"
         cross_table += line
     return cross_table

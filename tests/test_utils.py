@@ -74,5 +74,4 @@ def test_print_percentage() -> None:
     percentages = [0.7, 0.1, 0.2, 0.8]
     percentage_table = print_percentages(leads, percentages)
     percentage_str = "QS\tTH\t6D\t3C\t\n0.7\t0.1\t0.2\t0.8"
-    print("\n", percentage_table)
     assert percentage_table == percentage_str
