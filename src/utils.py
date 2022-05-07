@@ -112,14 +112,7 @@ def check_is_balanced(shape: tuple, semi: bool = False) -> bool:
     if semi:
         balanced_shapes.extend([(6, 3, 2, 2), (5, 4, 2, 2)])
     test_shape = tuple(sorted(shape, reverse=True))
-    print(test_shape)
     return test_shape in balanced_shapes
-    # all_balanced = [generate_allowed_shapes(
-    #     shape) for shape in balanced_shapes]
-    # all_shapes = set(x for y in all_balanced for x in y)
-    # if shape in all_shapes:
-    #     return True
-    # return False
 
 
 def check_if_shortage(shape: tuple) -> bool:
