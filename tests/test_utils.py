@@ -9,16 +9,18 @@ from src.contract import Contract
 
 def test_convert_card_to_number() -> None:
     r"Checks converting list of cards to list of numbers"
-    numbers_list = [100*suit +
-                    rank for suit in range(4) for rank in range(2, 15)]
+    numbers_list = [
+        100*suit + rank for suit in range(4) for rank in range(2, 15)
+    ]
     converted_list = [convert_card_to_number(card) for card in Deck]
     assert numbers_list == converted_list, "Numbers of cards don't match up"
 
 
 def test_convert_number_to_card() -> None:
     r"Checks converting list of numbers into Cards"
-    numbers_list = [100*suit +
-                    rank for suit in range(4) for rank in range(2, 15)]
+    numbers_list = [
+        100*suit + rank for suit in range(4) for rank in range(2, 15)
+    ]
     converted_list = [convert_number_to_card(num) for num in numbers_list]
     for cards in range(52):
         card, deck_card = converted_list[cards], Deck[cards]
@@ -60,8 +62,10 @@ def test_has_shortage() -> None:
 
 def test_print_table() -> None:
     r"Checks the printing of the cross table"
-    contracts = [Contract.construct_from_str("3NT"),
-                 Contract.construct_from_str("4S"), Contract.construct_from_str("5C"), ]
+    contracts = [
+        Contract.construct_from_str("3NT"), Contract.construct_from_str("4S"),
+        Contract.construct_from_str("5C")
+    ]
     imps = [[0, 13, 2], [-13, 0, -12], [-2, 12, 0]]
     cross_table = print_imp_table(contracts, imps)
     cross_string = "\t3NT\t4S\t5C\t\n3NT\t0\t13\t2\n4S\t-13\t0\t-12\n5C\t-2\t12\t0\n"

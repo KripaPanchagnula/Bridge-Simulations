@@ -1,5 +1,5 @@
 # Bridge-Simulations
-This is a Python library, based on `anntzer/redeal`, which in turn is based on [Thomas Andrews' Deal](https://bridge.thomasoandrews.com/deal/), which is a tool to generate bridge deals, specifying various constraints. These deals can also be analysed with [Bo Haglund's Double Dummy Solver](https://github.com/dds-bridge/dds), with the Windows' dll found in `src/dds-64.dll`.
+This is a Python library, based on [Anntzers' Redeal](https://github.com/anntzer/redeal), which in turn is based on [Thomas Andrews' Deal](https://bridge.thomasoandrews.com/deal/), which is a tool to generate bridge deals, specifying various constraints. These deals can also be analysed with [Bo Haglund's Double Dummy Solver](https://github.com/dds-bridge/dds), with the Windows' dll found in `src/dds-64.dll`.
 
 # Installation
 To install this, clone the repository ```git clone https://github.com/KripaPanchagnula/Bridge-Simulations.git```
@@ -12,4 +12,4 @@ In order to have access to the Double Dummy Solver, this must be run on Windows.
 To see various cases of how to use this library, look at the sample scripts in `examples/`, which have varying `accept(deal)` functions, and include `BestContract` and `BestLead` simulations.
 
 # Testing
-There are currently 44 tests which all pass, and code coverage of 99%. To run the tests, run `pytest` and to check coverage `pytest --cov=src tests`.
+There are currently 45 tests which all pass, and code coverage of 100%. To run the tests, run `pytest` and to check coverage run `pytest --cov=src tests`.

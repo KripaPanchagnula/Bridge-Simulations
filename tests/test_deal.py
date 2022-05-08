@@ -14,14 +14,19 @@ def test_deal_generation() -> None:
     r"Checks whether 13 cards in each suit dealt, and 40 points in pack."
     large_no = randint(0, int(5e28))
     deal = generate_deal(large_no, Hand([]), Hand([]), Hand([]), Hand([]))
-    spades = (len(deal.north.spades) + len(deal.east.spades)
-              + len(deal.south.spades) + len(deal.west.spades))
-    hearts = (len(deal.north.hearts) + len(deal.east.hearts)
-              + len(deal.south.hearts) + len(deal.west.hearts))
-    diamonds = (len(deal.north.diamonds) + len(deal.east.diamonds)
-                + len(deal.south.diamonds) + len(deal.west.diamonds))
-    clubs = (len(deal.north.clubs) + len(deal.east.clubs)
-             + len(deal.south.clubs) + len(deal.west.clubs))
+    spades = (
+        len(deal.north.spades) + len(deal.east.spades) + len(deal.south.spades)
+        + len(deal.west.spades))
+    hearts = (
+        len(deal.north.hearts) + len(deal.east.hearts) + len(deal.south.hearts)
+        + len(deal.west.hearts))
+    diamonds = (
+        len(deal.north.diamonds) +
+        len(deal.east.diamonds) + len(deal.south.diamonds)
+        + len(deal.west.diamonds))
+    clubs = (
+        len(deal.north.clubs) + len(deal.east.clubs) + len(deal.south.clubs)
+        + len(deal.west.clubs))
     points = deal.north.points + deal.east.points + \
         deal.south.points + deal.west.points
     assert isinstance(deal, Deal)
@@ -37,8 +42,11 @@ def test_removing_dealt_cards() -> None:
     north = Hand.construct_from_str('AKQJT98765432...')
     east = Hand.construct_from_str('.AKQJT98765432..')
     south = Hand.construct_from_str('..AKQJT98765432.')
-    clubs = [Card('2C'), Card('3C'), Card('4C'), Card('5C'), Card('6C'), Card('7C'),
-             Card('8C'), Card('9C'), Card('TC'), Card('JC'), Card('QC'), Card('KC'), Card('AC')]
+    clubs = [
+        Card('2C'), Card('3C'), Card('4C'), Card(
+            '5C'), Card('6C'), Card('7C'), Card('8C'),
+        Card('9C'), Card('TC'), Card('JC'), Card('QC'), Card('KC'), Card('AC')
+    ]
     available_cards = remove_dealt_cards(north, east, south, Hand([]))
     for i in range(13):
         assert available_cards[i].card == clubs[i].card
@@ -122,4 +130,4 @@ def test_invalid_deal() -> None:
     with pytest.raises(InvalidDealError):
         large_no = randint(0, int(1e20))
         generate_deal(large_no, Hand.construct_from_str('A.KQ..'),
-                      Hand.construct_from_str('A...'), Hand([]), Hand([]))
+                      Hand.construct_from_str('A...'),  Hand([]), Hand([]))

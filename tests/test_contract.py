@@ -37,6 +37,8 @@ def test_contract_instantiation() -> None:
     assert contract3.target == 7
     assert contract3.vul
 
+    assert contract3 == Contract.construct_from_str("1NT")
+
 
 def test_undoubled_undertricks() -> None:
     r"Checks values of undoubled undertricks at NV and Vul."

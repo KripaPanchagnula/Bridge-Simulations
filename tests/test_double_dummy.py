@@ -2,9 +2,11 @@
 #File: tests.test_double_dummy.py
 """Module testing src.double_dummy"""
 
+import pytest
+
 from src.double_dummy import Deal as DoubleDummyDeal, solve_strains, solve_leads
-from src.deal import Deal
-from src.types import Strain, Seat
+from src.deal import Deal, InvalidDealError
+from src.types import Strain, Seat, Hand
 
 
 deal = Deal.construct_from_strings([
@@ -15,13 +17,25 @@ deal = Deal.construct_from_strings([
 ])
 
 
+def test_invalid_solve() -> None:
+    r"Tests solving an invalid deal raises an exception."
+    empty_deal = Deal(
+        [Hand([]), Hand([]), Hand([]), Hand([])]
+    )
+    with pytest.raises(InvalidDealError):
+        solve_strains(empty_deal, "N")
+
+
 def test_deal() -> None:
     r"Tests creation of ctypes Deal object."
     double_dummy_deal = DoubleDummyDeal.construct_deal(deal, "NT", "E")
-    holdings = [[8948, 0, 552, 44], [16384, 20560, 28740, 24640],
-                [4352, 928, 3216, 4864], [3080, 11276, 256, 3216]]
-    remain_cards = [[double_dummy_deal.remainCards[i][j]
-                     for j in range(4)] for i in range(4)]
+    holdings = [
+        [8948, 0, 552, 44], [16384, 20560, 28740, 24640],
+        [4352, 928, 3216, 4864], [3080, 11276, 256, 3216]
+    ]
+    remain_cards = [
+        [double_dummy_deal.remainCards[i][j] for j in range(4)] for i in range(4)
+    ]
     assert Strain(double_dummy_deal.trump).name == "NT"
     assert Seat(double_dummy_deal.first).name == "S"
     assert double_dummy_deal.currentTrickSuit[:] == [0, 0, 0]

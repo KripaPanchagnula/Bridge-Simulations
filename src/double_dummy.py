@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import Dict, Tuple
 import ctypes
 from src.types import Strain, Seat, Card, Rank, Suit
-from src.deal import Deal as Board
+from src.deal import Deal as Board, InvalidDealError
 
 
 DLL = ctypes.WinDLL('src\\dds-64.dll')
@@ -154,8 +154,8 @@ def solve_board(deal: Board, strain: str, declarer: str,
         c_deal, target, solutions, mode, ctypes.byref(future_tricks), 0
     )
     if status != 1:
-        raise Exception(
-            f"""SolveBoard failed with status {status}, meaning {SolveBoardStatus[status]}""")
+        raise InvalidDealError(f"""
+        SolveBoard failed with status {status}, meaning {SolveBoardStatus[status]}""")
     return future_tricks
 
 
