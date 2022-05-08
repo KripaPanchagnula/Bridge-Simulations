@@ -4,7 +4,7 @@
 
 
 from __future__ import annotations
-from typing import List, Dict
+from typing import List, Dict, Optional
 from enum import Enum
 
 
@@ -224,10 +224,35 @@ class Hand:
             clubs += str(club)[0]
         return spades+'  '+hearts+'  '+diamonds+'  '+clubs
 
+    def count_keycards(self, trumps: Optional[str] = None) -> int:
+        r"""Counts the number of keycards in the hand. These are the 4 aces, plus the king
+        of the trump suit. If trumps are None, this just counts aces, as regular blackwood
+        would do.
+
+        Parameters
+        ----------
+        trumps : str, optional
+            The trump suit of the contract. Default is none.
+
+        Returns
+        -------
+        keycards : int
+            The number of keycards held in the hand.
+        """
+        keycards = 0
+        for card in self.hand:
+            if Rank(card.rank).name == "A":
+                keycards += 1
+        if trumps is not None:
+            if Card(f"K{trumps}") in self.hand:
+                keycards += 1
+        return keycards
+
 
 # List of 52 cards, in the order 2S, 3S, ... AS, 2H, ... AH, 2D, ... AD, 2C, ..., AC.
-Deck = [Card(card) for card in (Rank(rank).name+Suit(suit).name
-                                for suit in Suit for rank in Rank)]
+Deck = [
+    Card(card) for card in (Rank(rank).name+Suit(suit).name for suit in Suit for rank in Rank)
+]
 
 # Dictionary linking the rank of a card to its point count.
 Milton_HCP: Dict[int, int] = {

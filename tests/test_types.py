@@ -54,9 +54,13 @@ def test_card() -> None:
 def test_hand() -> None:
     r"Checks attributes of a Hand."
     hand = Hand.construct_from_str('AKQJT3.5.Q.A9872')
+    assert Card("QS") in hand.hand
     assert hand.shape == (6, 1, 1, 5)
     assert hand.points == 16
     assert str(hand) == '\u2660AKQJT3  \u26655  \u2666Q  \u2663A9872'
+    aces, spade_keycards = hand.count_keycards(), hand.count_keycards("S")
+    assert aces == 2
+    assert spade_keycards == 3
 
 
 def test_invalid_card() -> None:
