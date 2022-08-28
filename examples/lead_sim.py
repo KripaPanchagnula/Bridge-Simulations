@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-#File: examples.contract_sim.py
+#File: examples.lead_sim.py
 
 "Runs a lead simulation over 10 hands."
 from src.deal import Dealer, Deal
@@ -26,8 +26,8 @@ def accept(deal: Deal) -> bool:
     """
     west_shapes = [(4, 3, 3, 3), (3, 4, 3, 3), (3, 3, 3, 4), (3, 3, 4, 3),
                    (3, 3, 5, 2), (3, 3, 2, 5), (2, 3, 4, 4), (3, 2, 4, 4)]
-    if (check_is_balanced(deal.east.shape) and 15 <= deal.north.points <= 17
-            and deal.west.shape in west_shapes and 10 <= deal.west.points == 14):
+    if (check_is_balanced(deal.east.shape) and 15 <= deal.east.points <= 17
+            and deal.west.shape in west_shapes and 10 <= deal.west.points <= 14):
         return True
     return False
 

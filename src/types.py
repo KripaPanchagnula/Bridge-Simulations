@@ -137,6 +137,9 @@ class Hand:
     construct_from_str
         Construct a Hand object from a string representation.
 
+    count_keycards(trumps)
+        Counts the number of keycards in the hand. These are the 4 aces, plus the king of trumps.
+
     __str__
         Returns a string representation of the hand.
     """
@@ -179,8 +182,8 @@ class Hand:
                       len(self.diamonds), len(self.clubs))
 
     def calculate_points(self) -> None:
-        r"""Calculates the Milton HCP value of the hand by iterating through cards
-        and checking their value in the Milton_HCP dict."""
+        r"""Calculates the Milton HCP value of the hand by mapping each card to its point
+        count and summing them up."""
         self.points = sum(map(lambda card: Milton_HCP[card.rank], self.hand))
 
     @classmethod
