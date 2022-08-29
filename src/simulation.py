@@ -169,7 +169,10 @@ class BestContract(Simulation):
                 scores[self.contracts[i]])
             for i in range(len(self.contracts))
         }
-        return percentage_made
+        return {
+            k:v for k,v in sorted(percentage_made.items(), reverse=True,
+            key=lambda item:item[1])
+            }
 
     def calculate_contracts_imps_gained(self) -> List[List[float]]:
         r""" Calculates the IMPs gained by picking a specific contract over another.
@@ -271,7 +274,10 @@ class BestLead(Simulation):
             leads[i]: self.calculate_percentage_made(scores[leads[i]])
             for i in range(len(scores.keys()))
         }
-        return percentage_beaten
+        return {
+            k:v for k,v in sorted(percentage_beaten.items(), reverse=True,
+            key=lambda item:item[1])
+            }
 
     def calculate_leads_imps_gained(self) -> List[List[float]]:
         r""" Calculates the IMPs gained by picking a specific lead over another.
